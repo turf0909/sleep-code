@@ -74,17 +74,17 @@ bun run start -- --model claude-sonnet-4-6  # 完整模型 ID
 
 ## 相比原始源码快照做了什么
 
-原始快照仅包含 `src/` 目录（~1,900 文件，512K+ 行代码）。本 fork 补全了运行所需的全部基础设施：
+原始快照仅包含 `src/` 目录（~1,950 文件，512K+ 行代码）。本 fork 补全了运行所需的全部基础设施：
 
 | 分类 | 文件数 | 说明 |
 |------|--------|------|
 | 构建配置 | 3 | `package.json`、`tsconfig.json`、`bunfig.toml` |
 | 运行时预加载 | 2 | MACRO 常量注入 + `bun:bundle` feature flag 模拟 |
-| 缺失的类型定义 | 8 | `message.ts`、`tools.ts`、`utils.ts` 等（source map 未捕获） |
-| SDK 生成文件 | 6 | 从 Zod schemas 推导的类型定义 |
-| 依赖 Stub 包 | 48 | 私有 `@ant/*` 包、`@anthropic-ai/*` 内部包、NAPI 原生模块 |
-| Skill 文档 | 28 | 技能系统知识库内容（.md 文件） |
-| 源码补丁 | 4 | react-reconciler 兼容、execa 版本兼容、Commander.js 兼容 |
+| 缺失的类型定义 | 15 | `message.ts`、`tools.ts`、`utils.ts` 等（source map 未捕获） |
+| SDK 生成文件 | 9 | 从 Zod schemas 推导的类型定义 |
+| 依赖 Stub 包 | 48 | 13 个私有 `@ant/*` 包、`@anthropic-ai/*` 内部包、NAPI 原生模块 |
+| Skill 文档 | 29 | 技能系统知识库内容（.md 文件） |
+| 源码补丁 | 5 | react-reconciler 兼容、execa 版本兼容、Commander.js 兼容、highlight.js v11 兼容 |
 
 **总计新增**：~110 文件，~5,000 行（占代码库 ~1%）
 
@@ -94,7 +94,7 @@ bun run start -- --model claude-sonnet-4-6  # 完整模型 ID
 
 | 功能模块 | 状态 | 说明 |
 |---------|------|------|
-| **核心 CLI**（工具、命令、MCP、UI） | ~100% | 全部 1,903 个源文件正确加载 |
+| **核心 CLI**（工具、命令、MCP、UI） | ~100% | 全部 1,952 个源文件正确加载 |
 | **交互式模式**（终端 REPL） | 正常 | 完整的 Ink/React 终端界面 |
 | **打印模式**（`-p`） | 正常 | API 调用 + 结果输出 |
 | **子命令**（`mcp list`、`--help` 等） | 正常 | |

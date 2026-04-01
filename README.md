@@ -75,17 +75,17 @@ bun run start -- --model claude-sonnet-4-6
 
 ## What Was Added (vs. Original Source Snapshot)
 
-The original snapshot contained only `src/` (~1,900 files, 512K+ LOC). This fork adds the build infrastructure to make it runnable:
+The original snapshot contained only `src/` (~1,950 files, 512K+ LOC). This fork adds the build infrastructure to make it runnable:
 
 | Category | Files | Purpose |
 |----------|-------|---------|
 | Build config | `package.json`, `tsconfig.json`, `bunfig.toml` | Dependencies, TypeScript config, Bun bundler config |
 | Runtime preload | `stubs/preload.ts`, `stubs/bunPlugin.ts` | MACRO constants injection, `bun:bundle` feature flag mock |
-| Type definitions | `src/types/message.ts`, `tools.ts`, `utils.ts`, etc. (8 files) | Missing type files not captured in source map leak |
-| SDK generated types | `src/entrypoints/sdk/*.ts` (6 files) | Generated from Zod schemas |
-| Stub packages | `stubs/` (11 packages, 48 files) | Mocks for private `@ant/*` and `@anthropic-ai/*` packages, NAPI native modules |
-| Skill docs | `src/skills/bundled/**/*.md` (28 files) | Skill knowledge base content |
-| Source patches | `reconciler.ts`, `dispatcher.ts`, `main.tsx`, `print.ts` | react-reconciler 0.33.0 compat, execa v8 compat, Commander.js v14 compat |
+| Type definitions | `src/types/*.ts` (15 files) | Missing type files not captured in source map leak |
+| SDK generated types | `src/entrypoints/sdk/*.ts` (9 files) | Generated from Zod schemas |
+| Stub packages | `stubs/` (13 packages, 48 files) | Mocks for private `@ant/*` and `@anthropic-ai/*` packages, NAPI native modules |
+| Skill docs | `src/skills/bundled/**/*.md` (29 files) | Skill knowledge base content |
+| Source patches | `reconciler.ts`, `dispatcher.ts`, `main.tsx`, `print.ts`, `colorDiff.ts` | react-reconciler 0.33.0 compat, execa v8 compat, Commander.js v14 compat, highlight.js v11 compat |
 
 **Total added**: ~110 files, ~5,000 lines (~1% of codebase)
 
@@ -95,7 +95,7 @@ The original snapshot contained only `src/` (~1,900 files, 512K+ LOC). This fork
 
 | Aspect | Status | Notes |
 |--------|--------|-------|
-| **Core CLI** (tools, commands, MCP, UI) | ~100% | All 1,903 source files loaded, 16K+ imports resolved |
+| **Core CLI** (tools, commands, MCP, UI) | ~100% | All 1,952 source files loaded, 16K+ imports resolved |
 | **Interactive mode** (terminal REPL) | Working | Full Ink/React terminal UI |
 | **Print mode** (`-p`) | Working | Headless API calls |
 | **Subcommands** (`mcp list`, `--help`, etc.) | Working | |
@@ -104,7 +104,7 @@ The original snapshot contained only `src/` (~1,900 files, 512K+ LOC). This fork
 | **Computer Use** | Stubbed | Requires private `@ant/*` packages |
 | **Chrome integration** | Stubbed | Requires private `@ant/*` packages |
 | **Sandbox isolation** | Stubbed | Requires `@anthropic-ai/sandbox-runtime` |
-| **Native modules** (audio, image, modifiers) | Graceful fallback | NAPI binaries not available; JS fallbacks provided |
+| **Native modules** (audio, image, modifiers) | Graceful fallback | NAPI binaries not available; core modules (color-diff, file-index, yoga-layout) have pure TS ports in `src/native-ts/` |
 
 **Overall restoration: ~92-95%**
 
@@ -188,6 +188,8 @@ Internal Anthropic packages (`@ant/*`, `@anthropic-ai/sandbox-runtime`, etc.) ar
 
 ## Debugging
 
+### Startup Options
+
 ```bash
 # Debug mode (verbose logging)
 bun run start -- --debug
@@ -198,15 +200,57 @@ bun run start -- --debug-to-stderr
 # Debug to file
 bun run start -- --debug-file /tmp/claude-debug.log
 
+# Skip all permission checks (sandboxed environments only)
+bun run start -- --dangerously-skip-permissions
+
+# Set permission mode
+bun run start -- --permission-mode plan
+```
+
+### Common Test Commands
+
+```bash
 # Test API connectivity
 bun run print -- "say hi"
 
 # Check version
 bun run start -- --version
 
+# Show full help
+bun run start -- --help
+
 # Doctor (environment diagnostics)
 bun run start -- doctor
+
+# List MCP server status
+bun run start -- mcp list
 ```
+
+### Non-interactive Mode
+
+```bash
+# Basic usage
+bun run print -- "explain this code"
+
+# JSON output
+bun run start -- -p "hello" --output-format json
+
+# Streaming JSON output (for SDK integration)
+bun run start -- -p "hello" --output-format stream-json --verbose
+
+# Budget limit
+bun run start -- -p "review this code" --max-budget-usd 0.5
+```
+
+### Troubleshooting
+
+1. **Blank screen**: Ensure `execa` is v8 (`bun add execa@8`)
+2. **useEffectEvent error**: Ensure `react@19.2.0` + `react-reconciler@0.33.0`
+3. **Module not found**: Run `bun install` to reinstall dependencies
+4. **API auth failure**: Set `ANTHROPIC_API_KEY` environment variable
+5. **URL parse error**: `ANTHROPIC_BASE_URL` must include `https://` prefix (e.g., `https://your-proxy.com`), do not add `/v1` (SDK appends it automatically)
+6. **Auth conflict**: If both claude.ai login and API key exist, run `claude-dev /logout` first
+7. **Version rejected**: Check `MACRO.VERSION` in `stubs/preload.ts`
 
 ---
 
