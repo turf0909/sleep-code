@@ -47,6 +47,20 @@ AWS_REGION="us-east-1" bun run start
 ANTHROPIC_VERTEX_PROJECT_ID="your-project" CLOUD_ML_REGION="us-east5" bun run start
 ```
 
+### Use from Any Directory (Global Command)
+
+```bash
+# Create a global 'claude-dev' command (one-time setup)
+ln -sf $(pwd)/claude-dev.sh ~/.local/bin/claude-dev
+export PATH="$HOME/.local/bin:$PATH"  # add to ~/.zshrc for persistence
+
+# Now use from any project directory
+cd /path/to/your/project
+claude-dev                          # interactive mode
+claude-dev -p "explain this code"   # non-interactive
+ANTHROPIC_API_KEY="sk-xxx" ANTHROPIC_BASE_URL="https://your-proxy.com/v1" claude-dev
+```
+
 ### Select a Model
 
 ```bash
@@ -103,6 +117,8 @@ claude-code/
 ├── package.json              # Dependencies & scripts
 ├── tsconfig.json             # TypeScript configuration
 ├── bunfig.toml               # Bun runtime config (preload, bundle defines)
+├── claude-dev.sh             # Global launcher script (run from any directory)
+├── .gitignore                # Excludes node_modules/, dist/, etc.
 ├── stubs/                    # Stub packages for missing dependencies
 │   ├── preload.ts            # MACRO constants injection
 │   ├── bunPlugin.ts          # bun:bundle feature flag mock
@@ -131,7 +147,8 @@ claude-code/
 │   ├── plugins/              # Plugin system
 │   └── ...
 │
-└── README.md
+├── README.md
+└── README_CN.md              # Chinese documentation
 ```
 
 ---
@@ -159,7 +176,7 @@ claude-code/
 Official builds use Bun's `--define` to inline constants at build time. We inject them at runtime via `stubs/preload.ts` → `globalThis.MACRO`. Functionally identical.
 
 ### 2. Feature Flags
-`bun:bundle`'s `feature()` is a compile-time function. We mock it via a Bun plugin (`stubs/bunPlugin.ts`). Features with missing source modules are disabled (23 flags); features with complete source are enabled.
+`bun:bundle`'s `feature()` is a compile-time function. We mock it via a Bun plugin (`stubs/bunPlugin.ts`). Features with missing source modules are disabled (26 flags); features with complete source are enabled.
 
 ### 3. React Version
 The source was compiled with React Compiler targeting React 19.2. We use `react@19.2.0` + `react-reconciler@0.33.0` to match.

@@ -46,6 +46,21 @@ AWS_REGION="us-east-1" bun run start
 ANTHROPIC_VERTEX_PROJECT_ID="your-project" CLOUD_ML_REGION="us-east5" bun run start
 ```
 
+### 在任意目录使用（全局命令）
+
+```bash
+# 创建全局 claude-dev 命令（一次性设置）
+cd claude-code
+ln -sf $(pwd)/claude-dev.sh ~/.local/bin/claude-dev
+export PATH="$HOME/.local/bin:$PATH"  # 加入 ~/.zshrc 持久化
+
+# 之后在任意项目目录中使用
+cd /path/to/your/project
+claude-dev                          # 交互式模式
+claude-dev -p "解释这段代码"          # 非交互式
+ANTHROPIC_API_KEY="sk-xxx" ANTHROPIC_BASE_URL="https://your-proxy.com/v1" claude-dev
+```
+
 ### 选择模型
 
 ```bash
@@ -101,6 +116,8 @@ claude-code/
 ├── package.json              # 依赖声明 & 启动脚本
 ├── tsconfig.json             # TypeScript 编译配置
 ├── bunfig.toml               # Bun 运行时配置（preload、bundle defines）
+├── claude-dev.sh             # 全局启动脚本（可在任意目录运行）
+├── .gitignore                # 排除 node_modules/、dist/ 等
 ├── stubs/                    # 缺失依赖的 Stub 包
 │   ├── preload.ts            # MACRO 构建常量注入
 │   ├── bunPlugin.ts          # bun:bundle feature flag 模拟
@@ -130,7 +147,8 @@ claude-code/
 │   └── ...
 │
 ├── README.md                 # 英文文档
-└── README_CN.md              # 中文文档（本文件）
+├── README_CN.md              # 中文文档（本文件）
+└── claude-dev.sh             # 全局启动脚本
 ```
 
 ---
@@ -158,7 +176,7 @@ claude-code/
 官方构建通过 Bun 的 `--define` 在构建时内联常量。我们通过 `stubs/preload.ts` 在运行时注入 `globalThis.MACRO`，功能完全等价。
 
 ### 2. Feature Flags
-`bun:bundle` 的 `feature()` 是编译时函数。我们通过 Bun 插件（`stubs/bunPlugin.ts`）模拟：源码缺失的功能模块被禁用（23 个 flag），源码完整的功能已启用。
+`bun:bundle` 的 `feature()` 是编译时函数。我们通过 Bun 插件（`stubs/bunPlugin.ts`）模拟：源码缺失的功能模块被禁用（26 个 flag），源码完整的功能已启用。
 
 ### 3. React 版本
 源码由 React Compiler 编译，目标 React 19.2。我们使用 `react@19.2.0` + `react-reconciler@0.33.0` 匹配。
@@ -233,7 +251,9 @@ bun run start -- -p "review this code" --max-budget-usd 0.5
 2. **useEffectEvent 错误**：确保 `react@19.2.0` + `react-reconciler@0.33.0`
 3. **Module not found**：运行 `bun install` 重新安装依赖
 4. **API 认证失败**：设置 `ANTHROPIC_API_KEY` 环境变量
-5. **版本太旧被拒**：检查 `stubs/preload.ts` 中的 `MACRO.VERSION`
+5. **URL 解析错误**：`ANTHROPIC_BASE_URL` 必须包含 `https://` 前缀（如 `https://your-proxy.com/v1`）
+6. **Auth 冲突**：同时有 claude.ai 登录和 API key 时，先运行 `claude-dev /logout` 登出
+7. **版本太旧被拒**：检查 `stubs/preload.ts` 中的 `MACRO.VERSION`
 
 ---
 
