@@ -49,6 +49,8 @@ export type SandboxAskCallback = (request: { type: string; details: Record<strin
 export interface SandboxDependencyCheck {
   available: boolean
   reason?: string
+  errors: string[]
+  warnings: string[]
 }
 
 export declare const SandboxRuntimeConfigSchema: z.ZodType<SandboxRuntimeConfig>
@@ -57,7 +59,7 @@ export declare class SandboxManager {
   constructor(config?: SandboxRuntimeConfig)
   init(): Promise<SandboxManager>
   isEnabled(): boolean
-  checkDependencies(): Promise<SandboxDependencyCheck>
+  checkDependencies(options?: { command?: string; args?: string[] }): Promise<SandboxDependencyCheck>
   wrap<T>(fn: () => Promise<T>): Promise<T>
   getViolationStore(): SandboxViolationStore
 }

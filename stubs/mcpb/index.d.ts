@@ -12,6 +12,14 @@ export interface McpbManifest {
 
 export declare const McpbManifestSchema: z.ZodType<McpbManifest>
 
+export interface McpbUserConfigurationOption {
+  name: string
+  description?: string
+  type?: string
+  required?: boolean
+  default?: any
+}
+
 export declare function getMcpConfigForManifest(manifest: McpbManifest): {
   command: string
   args: string[]

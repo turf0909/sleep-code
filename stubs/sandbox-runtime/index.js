@@ -37,7 +37,7 @@ export class SandboxManager {
     return false
   }
 
-  static checkDependencies() {
+  static checkDependencies(options) {
     return { available: false, errors: ['Sandbox runtime stub - not available in local dev'], warnings: [] }
   }
 
@@ -109,7 +109,7 @@ export class SandboxManager {
     return new SandboxViolationStore()
   }
 
-  static annotateStderrWithSandboxFailures(stderr) {
+  static annotateStderrWithSandboxFailures(command, stderr) {
     return stderr
   }
 
