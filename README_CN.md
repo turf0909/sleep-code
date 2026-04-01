@@ -1,3 +1,5 @@
+[English](./README.md) | [中文](./README_CN.md)
+
 # Claude Code — 本地可运行版本
 
 > 基于 **2026 年 3 月 31 日** 通过 npm 包 source map 泄漏而公开的 Claude Code 源码快照。本 fork 补全了所有构建基础设施和依赖 stub，使其可以**在本地完整运行**。

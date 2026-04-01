@@ -1,3 +1,5 @@
+[English](./README.md) | [中文](./README_CN.md)
+
 # Claude Code — Local Runnable Fork
 
 > Based on the **Claude Code source snapshot** that became publicly accessible on **March 31, 2026** through a source map exposure in the npm distribution. This fork adds all necessary build infrastructure and stubs to make it **runnable locally**.
