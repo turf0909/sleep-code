@@ -70,20 +70,18 @@ const APPLE_EYES: Record<ClawdPose, string> = {
   'look-right': ' ▝   ▝ ',
   'arms-up': ' ▗   ▖ '
 };
-const CUSTOM_LOGO = [
-  ' ___       _    _        _____   _____',
-  '| _ ) __ _(_)__| |_  _  / __\\ \\ / / __|',
-  '| _ \\/ _` | / _` | || | \\__ \\\\ V /\\__ \\',
-  '|___/\\__,_|_\\__,_|\\_,_| |___/ |_| |___/',
-]
+// Each line padded to exactly 45 chars to prevent Ink alignment issues
+const CUSTOM_LOGO =
+  '    ____        _     __         ____________\n' +
+  '   / __ )____ _(_)___/ /_  __   / ____/ ____/\n' +
+  '  / __  / __ \x60/ / __  / / / /  / /   / /    \n' +
+  ' / /_/ / /_/ / / /_/ / /_/ /  / /___/ /___  \n' +
+  '/_____/\\__,_/_/\\__,_/\\__,_/   \\____/\\____/  '
 
 export function Clawd(t0: { pose?: ClawdPose } | undefined) {
-  // Custom ASCII art logo - compact version
   return (
-    <Box flexDirection="column" alignItems="center">
-      {CUSTOM_LOGO.map((line, i) => (
-        <Text key={i} color="clawd_body">{line}</Text>
-      ))}
+    <Box>
+      <Text color="clawd_body">{CUSTOM_LOGO}</Text>
     </Box>
   );
 }

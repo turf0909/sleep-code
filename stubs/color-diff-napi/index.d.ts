@@ -4,13 +4,13 @@ export interface SyntaxTheme {
 }
 
 export declare class ColorDiff {
-  constructor(options?: Record<string, any>)
-  render(oldContent: string, newContent: string, fileName?: string): string
+  constructor(hunk: Record<string, any>, firstLine: string | null, filePath: string, prefixContent?: string | null)
+  render(themeName: string, width: number, dim: boolean): string[] | null
 }
 
 export declare class ColorFile {
-  constructor(options?: Record<string, any>)
-  render(content: string, fileName?: string): string
+  constructor(code: string, filePath: string)
+  render(themeName: string, width: number, dim: boolean): string[] | null
 }
 
 export declare function getSyntaxTheme(themeName?: string): SyntaxTheme

@@ -21,5 +21,5 @@ export declare const API_RESIZE_PARAMS: { maxWidth: number; maxHeight: number }
 export declare function targetImageSize(width: number, height: number): { width: number; height: number }
 export declare function bindSessionContext(executor: ComputerExecutor, context: ComputerUseSessionContext): ComputerExecutor
 export declare const DEFAULT_GRANT_FLAGS: Record<string, boolean>
-export declare function buildComputerUseTools(config: any): any[]
-export declare function createComputerUseMcpServer(config: any): any
+export declare function buildComputerUseTools(capabilities: any, coordinateMode?: any): any[]
+export declare function createComputerUseMcpServer(adapter: any, coordinateMode?: any): any

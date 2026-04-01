@@ -37,7 +37,7 @@ bun run print -- "你的问题"
 ANTHROPIC_API_KEY="sk-ant-xxx" bun run start
 
 # 第三方代理（OpenRouter、自建中转等）
-ANTHROPIC_API_KEY="sk-xxx" ANTHROPIC_BASE_URL="https://your-proxy.com/v1" bun run start
+ANTHROPIC_API_KEY="sk-xxx" ANTHROPIC_BASE_URL="https://your-proxy.com" bun run start
 
 # AWS Bedrock
 AWS_REGION="us-east-1" bun run start
@@ -58,7 +58,7 @@ export PATH="$HOME/.local/bin:$PATH"  # 加入 ~/.zshrc 持久化
 cd /path/to/your/project
 claude-dev                          # 交互式模式
 claude-dev -p "解释这段代码"          # 非交互式
-ANTHROPIC_API_KEY="sk-xxx" ANTHROPIC_BASE_URL="https://your-proxy.com/v1" claude-dev
+ANTHROPIC_API_KEY="sk-xxx" ANTHROPIC_BASE_URL="https://your-proxy.com" claude-dev
 ```
 
 ### 选择模型
@@ -251,7 +251,7 @@ bun run start -- -p "review this code" --max-budget-usd 0.5
 2. **useEffectEvent 错误**：确保 `react@19.2.0` + `react-reconciler@0.33.0`
 3. **Module not found**：运行 `bun install` 重新安装依赖
 4. **API 认证失败**：设置 `ANTHROPIC_API_KEY` 环境变量
-5. **URL 解析错误**：`ANTHROPIC_BASE_URL` 必须包含 `https://` 前缀（如 `https://your-proxy.com/v1`）
+5. **URL 解析错误**：`ANTHROPIC_BASE_URL` 必须包含 `https://` 前缀（如 `https://your-proxy.com`），不需要加 `/v1`（SDK 会自动拼接）
 6. **Auth 冲突**：同时有 claude.ai 登录和 API key 时，先运行 `claude-dev /logout` 登出
 7. **版本太旧被拒**：检查 `stubs/preload.ts` 中的 `MACRO.VERSION`
 

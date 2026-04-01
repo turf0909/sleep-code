@@ -477,17 +477,17 @@ const reconciler = createReconciler<
   // reconciler reads `undefined` and calls it as a function when
   // mode & 32 (ViewTransition) is set. Ink never uses ViewTransitions
   // but providing them prevents crashes if the flag is ever set.
-  maySuspendCommitOnUpdate(): boolean {
+  maySuspendCommitOnUpdate(_type: ElementNames, _oldProps: Props, _newProps: Props): boolean {
     return false
   },
-  maySuspendCommitInSyncRender(): boolean {
+  maySuspendCommitInSyncRender(_type: ElementNames, _newProps: Props): boolean {
     return false
   },
-  preloadInstance(): boolean {
+  preloadInstance(_instance: DOMElement, _type: ElementNames, _newProps: Props): boolean {
     return true
   },
   startSuspendingCommit(): void {},
-  suspendInstance(): void {},
+  suspendInstance(_instance: DOMElement, _type: ElementNames, _props: Props): void {},
   waitForCommitToBeReady(): null {
     return null
   },

@@ -6,7 +6,8 @@ export interface ComputerUseInputAPI {
   scroll(deltaX: number, deltaY: number): void
   moveMouse(x: number, y: number): void
 }
-export interface ComputerUseInput {
-  create(): ComputerUseInputAPI
-}
-export default ComputerUseInput
+export type ComputerUseInput =
+  | { isSupported: true; create(): ComputerUseInputAPI }
+  | { isSupported: false }
+declare const stub: ComputerUseInput
+export default stub

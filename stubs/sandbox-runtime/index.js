@@ -129,10 +129,12 @@ export class SandboxManager {
 export class SandboxViolationStore {
   constructor() {
     this.violations = []
+    this._listeners = []
   }
 
   add(violation) {
     this.violations.push(violation)
+    for (const fn of this._listeners) fn(this.violations)
   }
 
   getAll() {
@@ -145,5 +147,16 @@ export class SandboxViolationStore {
 
   get count() {
     return this.violations.length
+  }
+
+  getTotalCount() {
+    return this.violations.length
+  }
+
+  subscribe(listener) {
+    this._listeners.push(listener)
+    return () => {
+      this._listeners = this._listeners.filter(fn => fn !== listener)
+    }
   }
 }

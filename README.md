@@ -37,7 +37,7 @@ bun run print -- "your prompt here"
 ANTHROPIC_API_KEY="sk-ant-xxx" bun run start
 
 # Third-party proxy (OpenRouter, custom relay, etc.)
-ANTHROPIC_API_KEY="sk-xxx" ANTHROPIC_BASE_URL="https://your-proxy.com/v1" bun run start
+ANTHROPIC_API_KEY="sk-xxx" ANTHROPIC_BASE_URL="https://your-proxy.com" bun run start
 
 # AWS Bedrock
 # Configure AWS credentials via aws-sdk defaults, then:
@@ -58,7 +58,7 @@ export PATH="$HOME/.local/bin:$PATH"  # add to ~/.zshrc for persistence
 cd /path/to/your/project
 claude-dev                          # interactive mode
 claude-dev -p "explain this code"   # non-interactive
-ANTHROPIC_API_KEY="sk-xxx" ANTHROPIC_BASE_URL="https://your-proxy.com/v1" claude-dev
+ANTHROPIC_API_KEY="sk-xxx" ANTHROPIC_BASE_URL="https://your-proxy.com" claude-dev
 ```
 
 ### Select a Model

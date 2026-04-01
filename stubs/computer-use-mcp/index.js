@@ -7,5 +7,5 @@ export function bindSessionContext(executor, context) {
   return executor
 }
 export const DEFAULT_GRANT_FLAGS = { allowScreenshot: false, allowClick: false, allowType: false, allowScroll: false, allowKeyboard: false }
-export function buildComputerUseTools(config) { return [] }
-export function createComputerUseMcpServer(config) { return null }
+export function buildComputerUseTools(capabilities, coordinateMode) { return [] }
+export function createComputerUseMcpServer(adapter, coordinateMode) { return null }
