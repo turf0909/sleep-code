@@ -472,12 +472,28 @@ const reconciler = createReconciler<
   maySuspendCommit(): boolean {
     return false
   },
+  // react-reconciler 0.33.0 added these for ViewTransition/Suspense
+  // commit gating on updates and sync renders. Without them, the
+  // reconciler reads `undefined` and calls it as a function when
+  // mode & 32 (ViewTransition) is set. Ink never uses ViewTransitions
+  // but providing them prevents crashes if the flag is ever set.
+  maySuspendCommitOnUpdate(): boolean {
+    return false
+  },
+  maySuspendCommitInSyncRender(): boolean {
+    return false
+  },
   preloadInstance(): boolean {
     return true
   },
   startSuspendingCommit(): void {},
   suspendInstance(): void {},
   waitForCommitToBeReady(): null {
+    return null
+  },
+  // react-reconciler 0.33.0: called during delayed commit to get
+  // a human-readable reason string for DevTools / tracing.
+  getSuspendedCommitReason(): string | null {
     return null
   },
   NotPendingTransition: null,
@@ -502,6 +518,21 @@ const reconciler = createReconciler<
   },
   resolveEventTimeStamp(): number {
     return dispatcher.currentEvent?.timeStamp ?? -1.1
+  },
+  // react-reconciler 0.33.0: bind console methods to the current
+  // fiber for component stacks in warnings. Ink doesn't need
+  // component-attributed console output, so pass through identity.
+  bindToConsole(
+    methodName: string,
+    args: unknown[],
+    _badgeName: string,
+  ): Function {
+    // eslint-disable-next-line no-console
+    const method = (console as Record<string, unknown>)[methodName]
+    if (typeof method === 'function') {
+      return method.bind(console, ...args)
+    }
+    return console.log.bind(console, ...args)
   },
 })
 

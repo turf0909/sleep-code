@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "paths": {
+      "bun:bundle": ["./stubs/bun-bundle.d.ts"],
+      "bun:ffi": ["./stubs/bun-ffi.d.ts"]
+    },
+    "types": ["bun-types"]
+  },
+  "include": ["src/**/*", "stubs/**/*.d.ts"],
+  "exclude": ["node_modules", "dist"]
+}

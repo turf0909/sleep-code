@@ -1713,8 +1713,13 @@ function runHeadlessStreaming(
               downloadUserSettings(),
             )
           : Promise.resolve(),
+        // In local dev, remote managed settings may never resolve (no enterprise backend).
+        // Race with a 2-second timeout to avoid a 30-second hang.
         withDiagnosticsTiming('headless_managed_settings_wait', () =>
-          waitForRemoteManagedSettingsToLoad(),
+          Promise.race([
+            waitForRemoteManagedSettingsToLoad(),
+            new Promise<void>(resolve => setTimeout(resolve, 2000)),
+          ]),
         ),
       ])
 

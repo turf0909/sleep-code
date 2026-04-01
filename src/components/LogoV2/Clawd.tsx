@@ -70,30 +70,27 @@ const APPLE_EYES: Record<ClawdPose, string> = {
   'look-right': ' ▝   ▝ ',
   'arms-up': ' ▗   ▖ '
 };
-export function Clawd(t0) {
-  const $ = _c(26);
-  let t1;
-  if ($[0] !== t0) {
-    t1 = t0 === undefined ? {} : t0;
-    $[0] = t0;
-    $[1] = t1;
-  } else {
-    t1 = $[1];
-  }
-  const {
-    pose: t2
-  } = t1;
-  const pose = t2 === undefined ? "default" : t2;
+const CUSTOM_LOGO = [
+  ' ___       _    _        _____   _____',
+  '| _ ) __ _(_)__| |_  _  / __\\ \\ / / __|',
+  '| _ \\/ _` | / _` | || | \\__ \\\\ V /\\__ \\',
+  '|___/\\__,_|_\\__,_|\\_,_| |___/ |_| |___/',
+]
+
+export function Clawd(t0: { pose?: ClawdPose } | undefined) {
+  // Custom ASCII art logo - compact version
+  return (
+    <Box flexDirection="column" alignItems="center">
+      {CUSTOM_LOGO.map((line, i) => (
+        <Text key={i} color="clawd_body">{line}</Text>
+      ))}
+    </Box>
+  );
+
+  // Original code below (unused)
+  const pose = (t0 as any)?.pose ?? "default";
   if (env.terminal === "Apple_Terminal") {
-    let t3;
-    if ($[2] !== pose) {
-      t3 = <AppleTerminalClawd pose={pose} />;
-      $[2] = pose;
-      $[3] = t3;
-    } else {
-      t3 = $[3];
-    }
-    return t3;
+    return <AppleTerminalClawd pose={pose} />;
   }
   const p = POSES[pose];
   let t3;

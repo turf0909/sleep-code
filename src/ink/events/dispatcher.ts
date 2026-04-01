@@ -2,8 +2,11 @@ import {
   ContinuousEventPriority,
   DefaultEventPriority,
   DiscreteEventPriority,
-  NoEventPriority,
 } from 'react-reconciler/constants.js'
+
+// NoEventPriority is available in react-reconciler >=0.30 but the project
+// has an older version installed at the top level. The value is always 0.
+const NoEventPriority = 0
 import { logError } from '../../utils/log.js'
 import { HANDLER_FOR_EVENT } from './event-handlers.js'
 import type { EventTarget, TerminalEvent } from './terminal-event.js'
