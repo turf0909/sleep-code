@@ -76,7 +76,7 @@ bun run start -- --model claude-sonnet-4-6  # 完整模型 ID
 
 ## 相比原始源码快照做了什么
 
-原始快照仅包含 `src/` 目录（~1,950 文件，512K+ 行代码）。本 fork 补全了运行所需的全部基础设施：
+原始快照仅包含 `src/` 目录（1,952 文件，517K+ 行代码）。本 fork 补全了运行所需的全部基础设施：
 
 | 分类 | 文件数 | 说明 |
 |------|--------|------|
@@ -86,7 +86,7 @@ bun run start -- --model claude-sonnet-4-6  # 完整模型 ID
 | SDK 生成文件 | 9 | 从 Zod schemas 推导的类型定义 |
 | 依赖 Stub 包 | 48 | 13 个私有 `@ant/*` 包、`@anthropic-ai/*` 内部包、NAPI 原生模块 |
 | Skill 文档 | 29 | 技能系统知识库内容（.md 文件） |
-| 源码补丁 | 5 | react-reconciler 兼容、execa 版本兼容、Commander.js 兼容、highlight.js v11 兼容 |
+| 源码补丁 | 5 | `ink/reconciler.ts`、`ink/events/dispatcher.ts`、`main.tsx`、`cli/print.ts`、`components/StructuredDiff/colorDiff.ts` |
 
 **总计新增**：~110 文件，~5,000 行（占代码库 ~1%）
 
@@ -128,7 +128,7 @@ sleep-code/
 │   ├── audio-capture-napi/   # 原生音频捕获 stub
 │   └── ...                   # 共 13 个 stub 包
 │
-├── src/                      # 原始 Claude Code 源码（~1,900 文件）
+├── src/                      # 原始 Claude Code 源码（1,952 文件）
 │   ├── main.tsx              # CLI 入口（Commander.js）
 │   ├── entrypoints/cli.tsx   # 启动引导 & 快速路径
 │   ├── commands.ts           # 斜杠命令注册表（~70 个命令）
@@ -138,7 +138,7 @@ sleep-code/
 │   │
 │   ├── commands/             # /commit, /review, /compact, /mcp, ...
 │   ├── tools/                # Bash, Edit, Read, Write, Glob, Grep, Agent, ...
-│   ├── components/           # React/Ink UI 组件（~350 个）
+│   ├── components/           # React/Ink UI 组件（389 个）
 │   ├── services/             # API 客户端、MCP、OAuth、分析、...
 │   ├── bridge/               # IDE 桥接（VS Code、JetBrains）
 │   ├── coordinator/          # 多 Agent 协调器

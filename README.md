@@ -78,7 +78,7 @@ bun run start -- --model claude-sonnet-4-6
 
 ## What Was Added (vs. Original Source Snapshot)
 
-The original snapshot contained only `src/` (~1,950 files, 512K+ LOC). This fork adds the build infrastructure to make it runnable:
+The original snapshot contained only `src/` (1,952 files, 517K+ LOC). This fork adds the build infrastructure to make it runnable:
 
 | Category | Files | Purpose |
 |----------|-------|---------|
@@ -88,7 +88,7 @@ The original snapshot contained only `src/` (~1,950 files, 512K+ LOC). This fork
 | SDK generated types | `src/entrypoints/sdk/*.ts` (9 files) | Generated from Zod schemas |
 | Stub packages | `stubs/` (13 packages, 48 files) | Mocks for private `@ant/*` and `@anthropic-ai/*` packages, NAPI native modules |
 | Skill docs | `src/skills/bundled/**/*.md` (29 files) | Skill knowledge base content |
-| Source patches | `reconciler.ts`, `dispatcher.ts`, `main.tsx`, `print.ts`, `colorDiff.ts` | react-reconciler 0.33.0 compat, execa v8 compat, Commander.js v14 compat, highlight.js v11 compat |
+| Source patches | `ink/reconciler.ts`, `ink/events/dispatcher.ts`, `main.tsx`, `cli/print.ts`, `components/StructuredDiff/colorDiff.ts` | react-reconciler 0.33.0 compat, execa v8 compat, Commander.js v14 compat, highlight.js v11 compat |
 
 **Total added**: ~110 files, ~5,000 lines (~1% of codebase)
 
@@ -130,7 +130,7 @@ sleep-code/
 │   ├── audio-capture-napi/   # Native audio capture stub
 │   └── ...                   # 13 stub packages total
 │
-├── src/                      # Original Claude Code source (~1,900 files)
+├── src/                      # Original Claude Code source (1,952 files)
 │   ├── main.tsx              # CLI entrypoint (Commander.js)
 │   ├── entrypoints/cli.tsx   # Bootstrap & fast-path handling
 │   ├── commands.ts           # Slash command registry (~70 commands)
@@ -140,7 +140,7 @@ sleep-code/
 │   │
 │   ├── commands/             # /commit, /review, /compact, /mcp, ...
 │   ├── tools/                # Bash, Edit, Read, Write, Glob, Grep, Agent, ...
-│   ├── components/           # React/Ink UI components (~350)
+│   ├── components/           # React/Ink UI components (389)
 │   ├── services/             # API client, MCP, OAuth, analytics, ...
 │   ├── bridge/               # IDE bridge (VS Code, JetBrains)
 │   ├── coordinator/          # Multi-agent orchestration

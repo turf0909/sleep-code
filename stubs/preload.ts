@@ -10,7 +10,7 @@
   BUILD_TIME: new Date().toISOString(),
   PACKAGE_URL: '@anthropic-ai/claude-code',
   NATIVE_PACKAGE_URL: '',
-  FEEDBACK_CHANNEL: 'https://github.com/anthropics/claude-code/issues',
-  ISSUES_EXPLAINER: 'Report issues at https://github.com/anthropics/claude-code/issues',
+  FEEDBACK_CHANNEL: 'https://github.com/turf0909/sleep-code/issues',
+  ISSUES_EXPLAINER: 'Report issues at https://github.com/turf0909/sleep-code/issues',
   VERSION_CHANGELOG: '',
 }
