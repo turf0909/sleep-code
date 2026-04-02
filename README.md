@@ -16,8 +16,8 @@
 ### Install & Run
 
 ```bash
-git clone https://github.com/turf0909/claude-code.git
-cd claude-code
+git clone https://github.com/turf0909/sleep-code.git
+cd sleep-code
 bun install
 
 # Interactive mode (full terminal UI)
@@ -51,7 +51,7 @@ ANTHROPIC_VERTEX_PROJECT_ID="your-project" CLOUD_ML_REGION="us-east5" bun run st
 
 ```bash
 # Create a global 'claude-dev' command (one-time setup)
-cd claude-code
+cd sleep-code
 bun install                # install dependencies first
 mkdir -p ~/.local/bin
 ln -sf $(pwd)/claude-dev.sh ~/.local/bin/claude-dev
@@ -116,7 +116,7 @@ The original snapshot contained only `src/` (~1,950 files, 512K+ LOC). This fork
 ## Project Structure
 
 ```text
-claude-code/
+sleep-code/
 ├── package.json              # Dependencies & scripts
 ├── tsconfig.json             # TypeScript configuration
 ├── bunfig.toml               # Bun runtime config (preload, bundle defines)

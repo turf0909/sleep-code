@@ -16,8 +16,8 @@
 ### 安装与启动
 
 ```bash
-git clone https://github.com/turf0909/claude-code.git
-cd claude-code
+git clone https://github.com/turf0909/sleep-code.git
+cd sleep-code
 bun install
 
 # 交互式模式（完整终端 UI）
@@ -50,7 +50,7 @@ ANTHROPIC_VERTEX_PROJECT_ID="your-project" CLOUD_ML_REGION="us-east5" bun run st
 
 ```bash
 # 创建全局 claude-dev 命令（一次性设置）
-cd claude-code
+cd sleep-code
 bun install                # 先安装依赖
 mkdir -p ~/.local/bin
 ln -sf $(pwd)/claude-dev.sh ~/.local/bin/claude-dev
@@ -114,7 +114,7 @@ bun run start -- --model claude-sonnet-4-6  # 完整模型 ID
 ## 项目结构
 
 ```text
-claude-code/
+sleep-code/
 ├── package.json              # 依赖声明 & 启动脚本
 ├── tsconfig.json             # TypeScript 编译配置
 ├── bunfig.toml               # Bun 运行时配置（preload、bundle defines）
