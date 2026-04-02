@@ -51,6 +51,9 @@ ANTHROPIC_VERTEX_PROJECT_ID="your-project" CLOUD_ML_REGION="us-east5" bun run st
 
 ```bash
 # Create a global 'claude-dev' command (one-time setup)
+cd claude-code
+bun install                # install dependencies first
+mkdir -p ~/.local/bin
 ln -sf $(pwd)/claude-dev.sh ~/.local/bin/claude-dev
 export PATH="$HOME/.local/bin:$PATH"  # add to ~/.zshrc for persistence
 
@@ -81,7 +84,7 @@ The original snapshot contained only `src/` (~1,950 files, 512K+ LOC). This fork
 |----------|-------|---------|
 | Build config | `package.json`, `tsconfig.json`, `bunfig.toml` | Dependencies, TypeScript config, Bun bundler config |
 | Runtime preload | `stubs/preload.ts`, `stubs/bunPlugin.ts` | MACRO constants injection, `bun:bundle` feature flag mock |
-| Type definitions | `src/types/*.ts` (15 files) | Missing type files not captured in source map leak |
+| Type definitions | `src/types/*.ts` (19 files) | Missing type files not captured in source map leak |
 | SDK generated types | `src/entrypoints/sdk/*.ts` (9 files) | Generated from Zod schemas |
 | Stub packages | `stubs/` (13 packages, 48 files) | Mocks for private `@ant/*` and `@anthropic-ai/*` packages, NAPI native modules |
 | Skill docs | `src/skills/bundled/**/*.md` (29 files) | Skill knowledge base content |
@@ -125,19 +128,19 @@ claude-code/
 │   ├── computer-use-mcp/     # @ant/computer-use-mcp stub
 │   ├── sandbox-runtime/      # @anthropic-ai/sandbox-runtime stub
 │   ├── audio-capture-napi/   # Native audio capture stub
-│   └── ...                   # 11 stub packages total
+│   └── ...                   # 13 stub packages total
 │
 ├── src/                      # Original Claude Code source (~1,900 files)
 │   ├── main.tsx              # CLI entrypoint (Commander.js)
 │   ├── entrypoints/cli.tsx   # Bootstrap & fast-path handling
-│   ├── commands.ts           # Slash command registry (~50 commands)
-│   ├── tools.ts              # Tool registry (~40 tools)
+│   ├── commands.ts           # Slash command registry (~70 commands)
+│   ├── tools.ts              # Tool registry (~47 tools)
 │   ├── Tool.ts               # Tool type definitions
 │   ├── QueryEngine.ts        # LLM query engine
 │   │
 │   ├── commands/             # /commit, /review, /compact, /mcp, ...
 │   ├── tools/                # Bash, Edit, Read, Write, Glob, Grep, Agent, ...
-│   ├── components/           # React/Ink UI components (~140)
+│   ├── components/           # React/Ink UI components (~350)
 │   ├── services/             # API client, MCP, OAuth, analytics, ...
 │   ├── bridge/               # IDE bridge (VS Code, JetBrains)
 │   ├── coordinator/          # Multi-agent orchestration
@@ -183,6 +186,9 @@ The source was compiled with React Compiler targeting React 19.2. We use `react@
 
 ### 4. Private Dependencies
 Internal Anthropic packages (`@ant/*`, `@anthropic-ai/sandbox-runtime`, etc.) are replaced with minimal stubs that provide the required API surface. Affected features (Computer Use, Chrome integration) are unavailable but don't block startup.
+
+### 5. Native Modules
+4 NAPI native modules (audio capture, image processing, keyboard modifiers, URL handling) provide no-op stubs. 3 core native modules (color-diff, file-index, yoga-layout) have pure TypeScript ports in `src/native-ts/`.
 
 ---
 

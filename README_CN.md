@@ -51,6 +51,8 @@ ANTHROPIC_VERTEX_PROJECT_ID="your-project" CLOUD_ML_REGION="us-east5" bun run st
 ```bash
 # 创建全局 claude-dev 命令（一次性设置）
 cd claude-code
+bun install                # 先安装依赖
+mkdir -p ~/.local/bin
 ln -sf $(pwd)/claude-dev.sh ~/.local/bin/claude-dev
 export PATH="$HOME/.local/bin:$PATH"  # 加入 ~/.zshrc 持久化
 
@@ -80,7 +82,7 @@ bun run start -- --model claude-sonnet-4-6  # 完整模型 ID
 |------|--------|------|
 | 构建配置 | 3 | `package.json`、`tsconfig.json`、`bunfig.toml` |
 | 运行时预加载 | 2 | MACRO 常量注入 + `bun:bundle` feature flag 模拟 |
-| 缺失的类型定义 | 15 | `message.ts`、`tools.ts`、`utils.ts` 等（source map 未捕获） |
+| 缺失的类型定义 | 19 | `message.ts`、`tools.ts`、`utils.ts` 等（source map 未捕获） |
 | SDK 生成文件 | 9 | 从 Zod schemas 推导的类型定义 |
 | 依赖 Stub 包 | 48 | 13 个私有 `@ant/*` 包、`@anthropic-ai/*` 内部包、NAPI 原生模块 |
 | Skill 文档 | 29 | 技能系统知识库内容（.md 文件） |
@@ -124,19 +126,19 @@ claude-code/
 │   ├── computer-use-mcp/     # @ant/computer-use-mcp stub
 │   ├── sandbox-runtime/      # @anthropic-ai/sandbox-runtime stub
 │   ├── audio-capture-napi/   # 原生音频捕获 stub
-│   └── ...                   # 共 11 个 stub 包
+│   └── ...                   # 共 13 个 stub 包
 │
 ├── src/                      # 原始 Claude Code 源码（~1,900 文件）
 │   ├── main.tsx              # CLI 入口（Commander.js）
 │   ├── entrypoints/cli.tsx   # 启动引导 & 快速路径
-│   ├── commands.ts           # 斜杠命令注册表（~50 个命令）
-│   ├── tools.ts              # 工具注册表（~40 个工具）
+│   ├── commands.ts           # 斜杠命令注册表（~70 个命令）
+│   ├── tools.ts              # 工具注册表（~47 个工具）
 │   ├── Tool.ts               # 工具类型定义
 │   ├── QueryEngine.ts        # LLM 查询引擎
 │   │
 │   ├── commands/             # /commit, /review, /compact, /mcp, ...
 │   ├── tools/                # Bash, Edit, Read, Write, Glob, Grep, Agent, ...
-│   ├── components/           # React/Ink UI 组件（~140 个）
+│   ├── components/           # React/Ink UI 组件（~350 个）
 │   ├── services/             # API 客户端、MCP、OAuth、分析、...
 │   ├── bridge/               # IDE 桥接（VS Code、JetBrains）
 │   ├── coordinator/          # 多 Agent 协调器
@@ -147,8 +149,7 @@ claude-code/
 │   └── ...
 │
 ├── README.md                 # 英文文档
-├── README_CN.md              # 中文文档（本文件）
-└── claude-dev.sh             # 全局启动脚本
+└── README_CN.md              # 中文文档（本文件）
 ```
 
 ---
