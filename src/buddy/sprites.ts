@@ -6,6 +6,7 @@ import {
   capybara,
   cat,
   chonk,
+  dodo,
   dragon,
   duck,
   ghost,
@@ -438,6 +439,29 @@ const BODIES: Record<Species, string[][]> = {
       '  `------´~ ',
     ],
   ],
+  [dodo]: [
+    [
+      '            ',
+      'o.--------. ',
+      ' (  {E}  {E}  )o',
+      ' (  ,o    ) ',
+      ' `--------´ ',
+    ],
+    [
+      '            ',
+      'o.--------. ',
+      ' (  {E}  {E}  )o',
+      ' (   ,o   ) ',
+      ' `--------´ ',
+    ],
+    [
+      '   |        ',
+      'o.--------. ',
+      ' (  {E}  {E}  )o',
+      ' (  ,O    ) ',
+      ' `--------´ ',
+    ],
+  ],
 }
 
 const HAT_LINES: Record<Hat, string> = {
@@ -510,5 +534,7 @@ export function renderFace(bones: CompanionBones): string {
       return `|${eye}  ${eye}|`
     case chonk:
       return `(${eye}.${eye})`
+    case dodo:
+      return `o(${eye}${eye})o`
   }
 }

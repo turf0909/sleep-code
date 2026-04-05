@@ -6,7 +6,6 @@ export function feature(name) {
   const DISABLED_FEATURES = new Set([
     'ABLATION_BASELINE',
     'ANTI_DISTILLATION_CC',
-    'BUDDY',
     'CCR_REMOTE_SETUP',
     'CONTEXT_COLLAPSE',
     'DAEMON',
