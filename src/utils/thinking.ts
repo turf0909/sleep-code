@@ -115,9 +115,13 @@ export function modelSupportsAdaptiveThinking(model: string): boolean {
   if (supported3P !== undefined) {
     return supported3P
   }
-  const canonical = getCanonicalName(model)
+  const canonical = getCanonicalName(model).toLowerCase().replace(/[ .]/g, '-')
   // Supported by a subset of Claude 4 models
-  if (canonical.includes('opus-4-6') || canonical.includes('sonnet-4-6')) {
+  if (
+    canonical.includes('opus-4-7') ||
+    canonical.includes('opus-4-6') ||
+    canonical.includes('sonnet-4-6')
+  ) {
     return true
   }
   // Exclude any other known legacy models (allowlist above catches 4-6 variants first)

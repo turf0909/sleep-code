@@ -36,7 +36,11 @@ export function has1mContext(model: string): boolean {
   if (is1mContextDisabled()) {
     return false
   }
-  return /\[1m\]/i.test(model)
+  if (/\[1m\]/i.test(model)) {
+    return true
+  }
+  const canonical = getCanonicalName(model).toLowerCase().replace(/[ .]/g, '-')
+  return canonical.includes('opus-4-7')
 }
 
 // @[MODEL LAUNCH]: Update this pattern if the new model supports 1M context
